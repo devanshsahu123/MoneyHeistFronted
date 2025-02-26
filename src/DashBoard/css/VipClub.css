@@ -1,0 +1,94 @@
+.vip-club-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header & Back Button */
+.vip-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.back-arrow {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.back-arrow:hover {
+    color: #007bff;
+}
+
+/* Titles */
+.vip-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+}
+
+.vip-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* VIP Card Styles */
+.vip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.vip-card {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.vip-card:hover {
+    transform: translateY(-3px);
+}
+
+.vip-tag {
+    background: #ffcc00;
+    color: black;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.vip-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Purchase Button */
+.purchase-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.purchase-button:hover {
+    background: #0056b3;
+}

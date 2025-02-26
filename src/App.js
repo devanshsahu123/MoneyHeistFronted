@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SignUpPage from "./auth/SignUpPage";
+import LogInPage from "./auth/LogInPage";
+import RootPage from "./DashBoard/RootPage";
+import HomePage from "./DashBoard/HomePage";
+import DepositeAmount from "./MoneyManagment/DepositeAmount";
+import WithdrawPage from "./DashBoard/WithdrawPage.js";
+import LinkAccount from "./DashBoard/LinkAccount.js";
+import VipClub from "./DashBoard/VipClub.js";
+import MyTaskList from "./MoneyManagment/MyTaskList.js";
+import MyTeam from "./MoneyManagment/MyTeam.js";
+import InviteFriend from "./MoneyManagment/InviteFriend.js";
+import AboutUs from "./MoneyManagment/AboutUs.js";
+import WebExLive from "./WebExLive/WebExLive.js";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<RootPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LogInPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/deposite" element={<DepositeAmount />} />
+        <Route path="/withdraw" element={<WithdrawPage />} />
+        <Route path="/link-account" element={<LinkAccount />} />
+        <Route path="/vip-club" element={<VipClub />} />
+        <Route path="/my-task" element={<MyTaskList />} />
+        <Route path="/my-team" element={<MyTeam />} />
+        <Route path="/invite" element={<InviteFriend />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/webx" element={<WebExLive />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

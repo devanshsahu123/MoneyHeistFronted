@@ -1,0 +1,81 @@
+.invite-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header & Back Button */
+.invite-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.back-arrow {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.back-arrow:hover {
+    color: #007bff;
+}
+
+.invite-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Referral Info */
+.invite-info {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Referral Box */
+.referral-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f4f4f4;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.referral-code {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Copy Button */
+.copy-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.copy-button:hover {
+    background: #0056b3;
+}
+
+.copy-icon {
+    font-size: 18px;
+}

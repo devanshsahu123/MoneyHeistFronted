@@ -1,0 +1,73 @@
+.task-list-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    color:black;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header & Back Button */
+.task-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.back-arrow {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.back-arrow:hover {
+    color: #007bff;
+}
+
+.task-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Table Styling */
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.task-table th,
+.task-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.task-table th {
+    color: black;
+    background: #f4f4f4;
+    font-weight: bold;
+}
+
+/* Claim Button */
+.claim-button {
+    background: #28a745;
+    color: white;
+    width: '100px';
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.claim-button:hover {
+    background: #218838;
+}
