@@ -14,9 +14,11 @@
     "framer-motion": "^12.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.4.0",
+    "react-icons": "^5.5.0",
+    "react-notification-alert": "^0.0.13",
     "react-router-dom": "^7.1.5",
     "react-scripts": "^5.0.1",
+    "reactstrap": "^9.2.3",
     "web-vitals": "^2.1.4",
     "webex": "^3.7.0"
   },

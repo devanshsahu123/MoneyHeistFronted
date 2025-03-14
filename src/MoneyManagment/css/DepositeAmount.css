@@ -115,3 +115,54 @@
         margin-bottom: 5px;
     }
 }
+
+.notify-alert {
+    background: rgba(0, 0, 0, 0.85) !important;
+    /* Dark background */
+    color: white !important;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+div.alert {
+    margin-top: 10px;
+}
+/* Success Notification (Green) */
+div.alert.alert-success {
+    background: rgba(40, 167, 69, 0.9) !important;
+    /* Green */
+    color: white !important;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 5px solid #28a745;
+}
+
+/* Error Notification (Red) */
+div.alert.alert-danger {
+    background: rgba(220, 53, 69, 0.9) !important;
+    /* Red */
+    color: white !important;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 5px solid #dc3545;
+}
+
+/* Warning Notification (Orange) */
+div.alert.alert-warning {
+    background: rgba(255, 193, 7, 0.9) !important;
+    /* Orange */
+    color: black !important;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 5px solid #ffc107;
+}
+
+/* Info Notification (Blue) */
+div.alert.alert-info {
+    background: rgba(0, 123, 255, 0.9) !important;
+    /* Blue */
+    color: white !important;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 5px solid #007bff;
+}

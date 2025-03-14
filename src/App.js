@@ -12,6 +12,7 @@ import MyTaskList from "./MoneyManagment/MyTaskList.js";
 import MyTeam from "./MoneyManagment/MyTeam.js";
 import InviteFriend from "./MoneyManagment/InviteFriend.js";
 import AboutUs from "./MoneyManagment/AboutUs.js";
+import TransactionHistory from "./admin/transactionHistory.js";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/my-team" element={<MyTeam />} />
         <Route path="/invite" element={<InviteFriend />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/admin" element={<TransactionHistory />} />
       </Routes>
     </Router>
   );

@@ -1,19 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { FaWallet, FaTimes } from "react-icons/fa";
+import NotificationAlert from "react-notification-alert";
+import "react-notification-alert/dist/animate.css";
 import "./css/DepositeAmount.css";
+import axios from "axios"; // Import Axios
 
 const DepositeAmount = ({ isOpen, onClose }) => {
     const [amount, setAmount] = useState("");
     const [transactionId, setTransactionId] = useState("");
     const [upiId, setUpiId] = useState("");
     const [step, setStep] = useState(1);
+    const notifi = useRef();
+
+    const notify = (msg, err) => {
+        let color = err == false ? 'success' : 'danger';
+        let options = {
+            type: color,
+            place: 'tr',
+            message: (
+                <div >
+                    <div >
+                        <b >{err == false ? 'Success' : 'Error'}</b> - {msg}.
+                    </div>
+                </div>
+            ),
+            icon: 'tim-icons icon-bell-55',
+            autoDismiss: 6,
+            closeButton: false,
+        };
+        if (notifi.current) {
+            notifi.current.notificationAlert(options);
+        }
+    };
 
     const handleAmountSubmit = () => {
         const depositAmount = parseFloat(amount);
 
         if (!depositAmount || depositAmount < 500) {
-            alert("Minimum deposit amount is ₹500.");
+            notify("Minimum deposit amount is ₹500.", true);
             return;
         }
 
@@ -21,21 +46,40 @@ const DepositeAmount = ({ isOpen, onClose }) => {
         setStep(2);
     };
 
-    const handleDeposit = () => {
-        if (!transactionId.trim()) {
-            alert("Please enter a valid UPI Transaction ID.");
+    const validateTransactionId = (id) => {
+        const upiRegex = /^[a-zA-Z0-9]{12,30}$/;
+        return upiRegex.test(id);
+    };
+
+    const handleDeposit = async () => {
+        if (!transactionId.trim() || !validateTransactionId(transactionId)) {
+            notify("Invalid transaction ID! Enter a valid transaction ID.", true);
             return;
         }
 
-        alert(`Depositing ₹${amount} with Transaction ID: ${transactionId}`);
+        const userId =JSON.parse(localStorage.getItem('data'))?._id;
 
-        // Reset fields after deposit
-        setAmount("");
-        setTransactionId("");
-        setUpiId("");
-        setStep(1);
+        try {
+            const { data } = await axios.put("http://localhost:5000/deposit", {
+                userId,
+                transactionId,
+                amount: parseFloat(amount),
+            });
 
-        onClose();
+            notify(`Deposit Successful! Transaction ID: ${transactionId}`, false);
+
+            // Reset fields after deposit
+            setAmount("");
+            setTransactionId("");
+            setUpiId("");
+            setStep(1);
+
+            onClose();
+        } catch (error) {
+            console.error("Deposit Error:", error);
+            const errorMessage = error.response?.data?.message || "Deposit failed. Please try again.";
+            notify(errorMessage, true);
+        }
     };
 
     const addAmount = (value) => {
@@ -46,6 +90,8 @@ const DepositeAmount = ({ isOpen, onClose }) => {
 
     return (
         <div className="modal-overlay">
+            <NotificationAlert ref={notifi} />
+
             <motion.div
                 className="modal-content"
                 initial={{ opacity: 0, y: 50 }}
