@@ -6,19 +6,18 @@ import "./css/DepositeAmount.css";
 const DepositeAmount = ({ isOpen, onClose }) => {
     const [amount, setAmount] = useState("");
     const [transactionId, setTransactionId] = useState("");
-    const [upiId, setUpiId] = useState(""); // UPI ID will be shown after amount entry
-    const [step, setStep] = useState(1); // Step-wise process
+    const [upiId, setUpiId] = useState("");
+    const [step, setStep] = useState(1);
 
     const handleAmountSubmit = () => {
-        if (!amount || parseFloat(amount) <= 0) {
-            alert("Please enter a valid deposit amount.");
+        const depositAmount = parseFloat(amount);
+
+        if (!depositAmount || depositAmount < 500) {
+            alert("Minimum deposit amount is ₹500.");
             return;
         }
 
-        // Generate or fetch UPI ID (Here, using a static UPI ID for example)
-        setUpiId("upi123@bank"); // Replace this with a dynamic UPI ID if needed
-
-        // Move to step 2 (Enter transaction ID)
+        setUpiId("upi123@bank"); // Example UPI ID, replace with dynamic value if needed
         setStep(2);
     };
 
@@ -34,9 +33,9 @@ const DepositeAmount = ({ isOpen, onClose }) => {
         setAmount("");
         setTransactionId("");
         setUpiId("");
-        setStep(1); // Reset to first step
+        setStep(1);
 
-        onClose(); // Close modal after deposit
+        onClose();
     };
 
     const addAmount = (value) => {
@@ -77,9 +76,13 @@ const DepositeAmount = ({ isOpen, onClose }) => {
                             />
                         </div>
 
+                        <p className="error-text">
+                            {amount && parseFloat(amount) < 500 ? "Minimum deposit is ₹500" : ""}
+                        </p>
+
                         {/* Quick Add Amount Buttons */}
                         <div className="quick-add-buttons">
-                            {[100, 500, 1000, 5000].map((value, index) => (
+                            {[500, 1000, 5000].map((value, index) => (
                                 <motion.div
                                     key={index}
                                     className="extra-deposit-box"
@@ -97,6 +100,7 @@ const DepositeAmount = ({ isOpen, onClose }) => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={handleAmountSubmit}
+                            disabled={!amount || parseFloat(amount) < 500}
                         >
                             Proceed to Payment
                         </motion.button>
