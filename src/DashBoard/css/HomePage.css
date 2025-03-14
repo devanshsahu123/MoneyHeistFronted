@@ -1,5 +1,9 @@
 /* General Styling */
-body {
+body{
+    margin: 0px;
+    padding: 0px;
+}
+.homepage {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(to bottom, #1e3a8a, #6b21a8);
     color: white;
