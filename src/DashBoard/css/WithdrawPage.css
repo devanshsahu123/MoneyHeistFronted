@@ -1,48 +1,62 @@
+/* Container Styling */
 .withdraw-container {
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
-    background: white;
+    background: #fff;
+    color: #333;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-family: 'Arial', sans-serif;
-    position: relative;
 }
 
+/* Header */
 .header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+}
+
+.header h2 {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 0;
 }
 
 .back-arrow {
-    font-size: 24px;
+    font-size: 1.8rem;
+    position: absolute;
     cursor: pointer;
-    color: #333;
-    transition: 0.3s;
 }
 
-.back-arrow:hover {
+/* Withdrawal Details Section */
+.withdrawal-details {
+    background: #f8f9fa;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.withdrawal-details h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.withdrawal-details p {
+    font-size: 0.9rem;
     color: #555;
 }
 
-h2 {
-    color: #333;
-    margin: 0;
-    font-size: 20px;
-}
-
+/* Input Fields */
 .input-group {
-    margin-bottom: 15px;
+    margin: 15px 0;
     text-align: left;
 }
 
 .input-group label {
-    font-size: 14px;
-    font-weight: 600;
     display: block;
+    font-weight: bold;
     margin-bottom: 5px;
 }
 
@@ -50,42 +64,59 @@ h2 {
 .input-group select {
     width: 100%;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
+    font-size: 1rem;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    outline: none;
 }
 
+/* Withdraw Summary */
+.withdraw-summary {
+    background: #e3f2fd;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.withdraw-summary h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+.withdraw-summary p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Buttons */
+.withdraw-button,
 .link-bank-button {
     width: 100%;
     padding: 12px;
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: bold;
-    background: #3498db;
-    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-.link-bank-button:hover {
-    background: #217dbb;
+    transition: 0.3s ease-in-out;
 }
 
 .withdraw-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    background: #27ae60;
+    background: #28a745;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
 .withdraw-button:hover {
-    background: #219150;
+    background: #218838;
+}
+
+.link-bank-button {
+    background: #007bff;
+    color: white;
+}
+
+.link-bank-button:hover {
+    background: #0056b3;
 }

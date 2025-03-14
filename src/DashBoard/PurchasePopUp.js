@@ -12,7 +12,7 @@ const PurchasePopUp = ({ investment, onClose }) => {
     };
 
     const handleConfirmPurchase = () => {
-        alert(`Purchased ${quantity} of ${investment.title} for ₹${(quantity * parseFloat(investment.investAmount)).toFixed(2)}`);
+        alert(`Purchased ${quantity} of ${investment.heading} for ₹${(quantity * parseFloat(investment.investAmount)).toFixed(2)}`);
         onClose();
     };
 
@@ -26,19 +26,23 @@ const PurchasePopUp = ({ investment, onClose }) => {
                 transition={{ duration: 0.3 }}
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
             >
+                <div>
+
+             
+
                 {/* Close Icon */}
                 <button className="close-icon" onClick={onClose}>
                     <FaTimes />
                 </button>
 
                 {/* Product Details */}
-                <h2>{investment.title}</h2>
-                <img className="product-image" src={investment.image} alt={investment.title} />
+                <h2>{investment.heading}</h2>
+                <img className="product-image" src={investment.image} alt={investment.heading} />
 
-                <p><strong>Invest Amount:</strong> {investment.investAmount}</p>
-                <p><strong>Day Income:</strong> {investment.dayIncome}</p>
-                <p><strong>Total Income:</strong> {investment.totalIncome}</p>
-                <p><strong>Earnings Days:</strong> {investment.days}</p>
+                    <p><strong>Invest Amount:</strong> ₹{investment.investAmount}</p>
+                    <p><strong>Day Income:</strong> ₹{investment.dayIncome}</p>
+                    <p><strong>Total Income:</strong> ₹{investment.dayIncome * investment.earningsDays}</p>
+                <p><strong>Earnings Days:</strong> {investment.earningsDays}</p>
 
                 {/* Quantity Selector */}
                 <div className="quantity-container">
@@ -49,7 +53,7 @@ const PurchasePopUp = ({ investment, onClose }) => {
                 {console.log('checking', quantity, investment)}
                 <p><strong>Total Price:</strong> ₹{(quantity * parseFloat(investment.investAmount)).toFixed(2)}</p>
 
-                {/* Fixed Bottom Button */}
+                </div>
                 <div className="button-container">
                     <button className="confirm-button" onClick={handleConfirmPurchase}>
                         Confirm Purchase

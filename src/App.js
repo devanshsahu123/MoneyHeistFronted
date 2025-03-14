@@ -12,7 +12,6 @@ import MyTaskList from "./MoneyManagment/MyTaskList.js";
 import MyTeam from "./MoneyManagment/MyTeam.js";
 import InviteFriend from "./MoneyManagment/InviteFriend.js";
 import AboutUs from "./MoneyManagment/AboutUs.js";
-import WebExLive from "./WebExLive/WebExLive.js";
 
 const App = () => {
   return (
@@ -30,7 +29,6 @@ const App = () => {
         <Route path="/my-team" element={<MyTeam />} />
         <Route path="/invite" element={<InviteFriend />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/webx" element={<WebExLive />} />
       </Routes>
     </Router>
   );

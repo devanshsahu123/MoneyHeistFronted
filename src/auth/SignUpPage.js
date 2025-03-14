@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaUserPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SignUpPage = () => {
+    const location = useLocation();
     const navigate = useNavigate();
+    const [error, setError] = useState("");
+    
+    console.log(location,'checkLocation');
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -14,7 +18,12 @@ const SignUpPage = () => {
         upiId: "",
         inviteCode: "",
     });
-    const [error, setError] = useState("");
+    useEffect(()=>{
+        const params = new URLSearchParams(location.search);
+        const code = params.get("code");
+
+        setFormData({ ...formData, inviteCode: code })
+    },[])
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

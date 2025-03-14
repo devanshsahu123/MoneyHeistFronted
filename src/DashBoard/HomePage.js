@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
     FaWallet,
@@ -16,49 +16,80 @@ import "./css/HomePage.css";
 import PurchasePopUp from "./PurchasePopUp";
 import DepositeAmount from "../MoneyManagment/DepositeAmount";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const HomePage = () => {
     const navigate = useNavigate();
     const [selectedInvestment, setSelectedInvestment] = useState(null);
     const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
-    const hotInvestments = [
-        {
-            vip: "VIP2",
-            image: "https://dummyimage.com/600x400/000/fff",
-            title: "Medtronic-2",
-            dayIncome: "880",
-            days: "3 Days",
-            totalIncome: "2640",
-            investAmount: "1600.00",
-        },
-        {
-            vip: "VIP3",
-            image: "https://dummyimage.com/600x400/000/fff",
-            title: "Tesla-3",
-            dayIncome: "1500",
-            days: "5 Days",
-            totalIncome: "7500",
-            investAmount: "5000.00",
-        },
-        {
-            vip: "VIP4",
-            image: "https://dummyimage.com/600x400/000/fff",
-            title: "Amazon-4",
-            dayIncome: "2500",
-            days: "7 Days",
-            totalIncome: "17500",
-            investAmount: "10000.00",
-        },
-        {
-            vip: "VIP5",
-            image: "https://dummyimage.com/600x400/000/fff",
-            title: "Google-5",
-            dayIncome: "4000",
-            days: "10 Days",
-            totalIncome: "40000",
-            investAmount: "20000.00",
-        },
-    ];
+    const [hotInvestments, setHotInvestments] = useState([]);
+    const [userInfo, setUserInfo] = useState({});
+    
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/products");
+            setHotInvestments(response.data); // Store API response in state
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+
+    const getUserInfo = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/userInfo",{
+                params: {
+                    userId: JSON.parse(localStorage.getItem('data'))?._id
+                }
+            });
+
+            setUserInfo(response.data.data); 
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+    useEffect(() => {
+        getUserInfo();
+        fetchProducts();
+    }, []);
+
+    // const hotInvestments = [
+    //     {
+    //         vip: "VIP2",
+    //         image: "https://dummyimage.com/600x400/000/fff",
+    //         title: "Medtronic-2",
+    //         dayIncome: "880",
+    //         days: "3 Days",
+    //         totalIncome: "2640",
+    //         investAmount: "1600.00",
+    //     },
+    //     {
+    //         vip: "VIP3",
+    //         image: "https://dummyimage.com/600x400/000/fff",
+    //         title: "Tesla-3",
+    //         dayIncome: "1500",
+    //         days: "5 Days",
+    //         totalIncome: "7500",
+    //         investAmount: "5000.00",
+    //     },
+    //     {
+    //         vip: "VIP4",
+    //         image: "https://dummyimage.com/600x400/000/fff",
+    //         title: "Amazon-4",
+    //         dayIncome: "2500",
+    //         days: "7 Days",
+    //         totalIncome: "17500",
+    //         investAmount: "10000.00",
+    //     },
+    //     {
+    //         vip: "VIP5",
+    //         image: "https://dummyimage.com/600x400/000/fff",
+    //         title: "Google-5",
+    //         dayIncome: "4000",
+    //         days: "10 Days",
+    //         totalIncome: "40000",
+    //         investAmount: "20000.00",
+    //     },
+    // ];
 
     return (
         <div className="homepage">
@@ -71,8 +102,8 @@ const HomePage = () => {
             <div className="user-id-section">
                 <FaUserCircle className="user-icon" />
                 <div>
-                    <h2 className="user-name">John Doe</h2>
-                    <p className="user-id">ID: 123456789</p>
+                    <h2 className="user-name">{userInfo.name}</h2>
+                    <p className="user-id">ID: {userInfo._id}</p>
                 </div>
                 <FaSignOutAlt className="redeem-icon" />
             </div>
@@ -81,11 +112,11 @@ const HomePage = () => {
             <div className="amount-container">
                 <div className="amount-box">
                     <p className="amount-label">Withdraw Amount</p>
-                    <p className="amount-value">₹300</p>
+                    <p className="amount-value">₹{userInfo.withdrawAmount}</p>
                 </div>
                 <div className="amount-box">
                     <p className="amount-label">Deposit Amount</p>
-                    <p className="amount-value">₹500</p>
+                    <p className="amount-value">₹{userInfo.depositAmount}</p>
                 </div>
             </div>
 
@@ -121,7 +152,7 @@ const HomePage = () => {
                         key={index}
                         className="extra-box"
                         whileHover={{ scale: 1.05 }}
-                        onClick= {item.funct}
+                        onClick={item.funct}
                     >
                         <div className="feature-icon">{item.icon}</div>
                         <p>{item.label}</p>
@@ -142,17 +173,17 @@ const HomePage = () => {
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6 }}
                         >
-                            <span className="vip-tag">{investment.vip}</span>
+                            <span className="vip-tag">VIP-{investment.vip}</span>
                             <div className="investment-header">
                                 <div className="investment-image">
                                     <img src={investment.image} alt="Investment" />
                                 </div>
-                                <h3>{investment.title}</h3>
+                                <h3>{investment.heading}</h3>
                             </div>
                             <p>Day Income: <span className="bold">₹{investment.dayIncome}</span></p>
-                            <p>Earnings Days: <span className="bold">{investment.days}</span></p>
-                            <p>Total Income: <span className="bold">₹{investment.totalIncome}</span></p>
-                            <p>Invest Amount: <strong className="highlight">₹{investment.investAmount}</strong></p>
+                            <p>Earnings Days: <span className="bold">{investment.earningsDays}</span></p>
+                            <p>Total Income: <span className="bold">₹{investment.dayIncome * investment.earningsDays}</span></p>
+                            <p>Invest Amount: <strong className="highlight" style={{color:'green'}}>₹{investment.investAmount}</strong></p>
 
                             {/* Purchase Button */}
                             <button

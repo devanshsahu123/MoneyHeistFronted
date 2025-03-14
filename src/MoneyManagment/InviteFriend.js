@@ -1,12 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack, IoCopy } from "react-icons/io5";
+import axios from "axios"; // Import axios for API calls
 import "./css/InviteFriend.css";
 
 const InviteFriend = () => {
     const navigate = useNavigate();
-    const referralLink = "https://example.com/referral?code=ABC123";
+    const [referralCode, setReferralCode] = useState("");
+    const userId = JSON.parse(localStorage.getItem("data"))?._id; // Get userId from localStorage
 
+    useEffect(() => {
+        if (userId) {
+            fetchReferralCode();
+        }
+    }, [userId]);
+
+    // Function to fetch referral code from the API
+    const fetchReferralCode = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/refferal-code?userId=${userId}`);
+            if (response.data && response.data.data) {
+                setReferralCode(response.data.data);
+            }
+        } catch (error) {
+            console.error("Error fetching referral code:", error);
+        }
+    };
+
+    const referralLink = `http://localhost:3000/signup?code=${referralCode}`;
+
+    // Function to copy the referral link
     const handleCopy = () => {
         navigator.clipboard.writeText(referralLink);
         alert("Referral link copied to clipboard! ✅");
@@ -27,8 +50,8 @@ const InviteFriend = () => {
 
             {/* Referral Code Box */}
             <div className="referral-box">
-                <span className="referral-code">ABC123</span>
-                <button className="copy-button" onClick={handleCopy}>
+                <span className="referral-code">{referralCode || "Loading..."}</span>
+                <button className="copy-button" onClick={handleCopy} disabled={!referralCode}>
                     <IoCopy className="copy-icon" /> Copy Link
                 </button>
             </div>
