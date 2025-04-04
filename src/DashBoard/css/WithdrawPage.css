@@ -1,12 +1,21 @@
-/* Container Styling */
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+}
+
+/* Centering the Withdraw Container */
 .withdraw-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #fff;
+    max-width: 420px;
+    margin: 80px auto;
+    /* Adjusted margin for better centering */
+    padding: 25px;
+    background: #f2eded;
     color: #333;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
@@ -14,38 +23,42 @@
 .header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .header h2 {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: bold;
     margin: 0;
 }
 
+/* Back Arrow */
 .back-arrow {
     font-size: 1.8rem;
-    position: absolute;
     cursor: pointer;
+    position: absolute;
+    left: 0;
+    color: #007bff;
+    transition: color 0.3s;
 }
 
-/* Withdrawal Details Section */
-.withdrawal-details {
-    background: #f8f9fa;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
+.back-arrow:hover {
+    color: #0056b3;
 }
 
-.withdrawal-details h3 {
-    margin: 0;
-    font-size: 1.2rem;
+/* Balance and Minimum Withdrawal */
+h3 {
+    font-size: 1.3rem;
+    color: #222;
+    margin-bottom: 10px;
 }
 
-.withdrawal-details p {
-    font-size: 0.9rem;
+p {
+    font-size: 1rem;
     color: #555;
+    margin-bottom: 10px;
 }
 
 /* Input Fields */
@@ -57,16 +70,26 @@
 .input-group label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+    color: #333;
 }
 
 .input-group input,
 .input-group select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     font-size: 1rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
+    background: #f9f9f9;
+    transition: 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    background: #fff;
 }
 
 /* Withdraw Summary */
@@ -90,17 +113,25 @@
     color: #333;
 }
 
+/* Error Message */
+.error-message {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
 /* Buttons */
 .withdraw-button,
 .link-bank-button {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     font-size: 1rem;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
+    margin-top: 10px;
 }
 
 .withdraw-button {
@@ -119,4 +150,26 @@
 
 .link-bank-button:hover {
     background: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .withdraw-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .header h2 {
+        font-size: 1.4rem;
+    }
+
+    .input-group input,
+    .input-group select {
+        padding: 10px;
+    }
+
+    .withdraw-button,
+    .link-bank-button {
+        padding: 12px;
+    }
 }

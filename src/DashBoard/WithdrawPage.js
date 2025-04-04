@@ -6,9 +6,8 @@ import "./css/WithdrawPage.css";
 
 const WithdrawPage = () => {
     const navigate = useNavigate();
+const [availableBalance, setAvailableBalance] = useState(0);
 
-    // Mock values (Replace with API data)
-    const availableBalance = 5000;
     const minWithdrawal = 100;
     const userId = JSON.parse(localStorage.getItem('data'))?._id; // Replace with dynamic user ID
 
@@ -22,8 +21,9 @@ const WithdrawPage = () => {
         const fetchUpiId = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/upi?userId=${userId}`);
-                console.log(response.data,"ofUpi");
+                console.log(response.data,"response.data");
                 setUpiId(response.data);
+                setAvailableBalance(response.data.withdrawAmount); // Assuming the API returns available balance
             } catch (error) {
                 console.error("Error fetching UPI ID:", error);
             }
@@ -66,7 +66,7 @@ const WithdrawPage = () => {
                     <div className="input-group">
                         <label>Select Payment Method</label>
                         <select value={method} onChange={(e) => setMethod(e.target.value)}>
-                            <option value="UPI">UPI</option>
+                            <option value="UPI">{`UPI (${upiId?.upiId})`}</option>
                         </select>
                     </div>
                 <p><strong>Minimum Withdrawal:</strong> ₹{minWithdrawal}</p>

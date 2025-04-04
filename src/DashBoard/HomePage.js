@@ -103,7 +103,7 @@ const HomePage = () => {
                 <FaUserCircle className="user-icon" />
                 <div>
                     <h2 className="user-name">{userInfo.name}</h2>
-                    <p className="user-id">ID: {userInfo._id}</p>
+                    <p className="user-id" style={{color:"#FFF"}}>ID: {userInfo._id}</p>
                 </div>
                 <FaSignOutAlt className="redeem-icon" />
             </div>
@@ -135,7 +135,7 @@ const HomePage = () => {
                         onClick={item.funct}
                     >
                         <div className="feature-icon">{item.icon}</div>
-                        <p>{item.label}</p>
+                        <p style={{ color: "#fff" }}>{item.label}</p>
                     </motion.div>
                 ))}
             </div>
@@ -155,7 +155,7 @@ const HomePage = () => {
                         onClick={item.funct}
                     >
                         <div className="feature-icon">{item.icon}</div>
-                        <p>{item.label}</p>
+                        <p >{item.label}</p>
                     </motion.div>
                 ))}
             </div>

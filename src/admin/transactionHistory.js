@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
     IconButton, TablePagination, Select, MenuItem, FormControl, InputLabel, TextField,
@@ -15,41 +15,56 @@ const TransactionHistory = () => {
     const [filter, setFilter] = useState({
         type: "",
         transactionType: "",
+        depositStatus: "0", // Default to "Pending"
         search: "",
     });
 
-    useEffect(() => {
-        const fetchTransactions = async () => {
-            try {
-                const response = await fetch("http://localhost:5000/admin/transaction");
-                const data = await response.json();
+    // Fetch Transactions based on Filters
+    const fetchTransactions = useCallback(async () => {
+        if (!filter.depositStatus) return; // Mandatory condition
 
-                if (data.success) {
-                    setTransactions(data.data);
-                } else {
-                    setError("Failed to fetch transactions.");
-                }
-            } catch (err) {
-                setError("Error fetching data.");
-            } finally {
-                setLoading(false);
+        setLoading(true);
+        try {
+            const queryParams = new URLSearchParams(filter).toString();
+            const response = await fetch(`http://localhost:5000/admin/transaction?${queryParams}`);
+            const data = await response.json();
+
+            if (data.success) {
+                setTransactions(data.data);
+                setError("");
+            } else {
+                setError("Failed to fetch transactions.");
             }
-        };
+        } catch (err) {
+            setError("Error fetching data.");
+        } finally {
+            setLoading(false);
+        }
+    }, [filter]);
 
+    useEffect(() => {
         fetchTransactions();
-    }, []);
-
-    // Filter transactions
-    const filteredTransactions = transactions.filter(txn =>
-        (filter.type ? txn.type === filter.type : true) &&
-        (filter.transactionType ? txn.transactionType === filter.transactionType : true) &&
-        (filter.search ? txn.transactionId.includes(filter.search) || txn.userId?.name?.toLowerCase().includes(filter.search.toLowerCase()) : true)
-    );
+    }, [fetchTransactions]);
 
     // Handle Approve / Reject actions
-    const handleAction = (id, action) => {
-        alert(`Transaction ${id} ${action}d`);
-        // Here you can implement an API call to approve/reject transaction
+    const handleAction = async (id, userId, action) => {
+        try {
+            const response = await fetch("http://localhost:5000/admin/transaction", {
+                method: action === "reject" ? "DELETE" : "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ _id: id, userId })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert(`Transaction ${action}ed successfully!`);
+                fetchTransactions(); // Refresh data
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            alert(`Error ${action}ing transaction.`);
+        }
     };
 
     return (
@@ -86,6 +101,18 @@ const TransactionHistory = () => {
                     </Select>
                 </FormControl>
 
+                <FormControl sx={{ minWidth: 200 }}>
+                    <InputLabel>Deposit Status</InputLabel>
+                    <Select
+                        value={filter.depositStatus}
+                        onChange={(e) => setFilter({ ...filter, depositStatus: e.target.value })}
+                    >
+                        <MenuItem value="0">Pending</MenuItem>
+                        <MenuItem value="1">Approved</MenuItem>
+                        <MenuItem value="2">Rejected</MenuItem>
+                    </Select>
+                </FormControl>
+
                 <TextField
                     label="Search by Name or ID"
                     variant="outlined"
@@ -111,12 +138,13 @@ const TransactionHistory = () => {
                                     <TableCell>Type</TableCell>
                                     <TableCell>Amount</TableCell>
                                     <TableCell>Transaction Type</TableCell>
+                                    <TableCell>Deposit Status</TableCell>
                                     <TableCell>Created At</TableCell>
                                     <TableCell>Actions</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {filteredTransactions
+                                {transactions
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((txn) => (
                                         <TableRow key={txn._id}>
@@ -126,20 +154,28 @@ const TransactionHistory = () => {
                                             <TableCell>{txn.type}</TableCell>
                                             <TableCell>${txn.amount}</TableCell>
                                             <TableCell>{txn.transactionType}</TableCell>
+                                            <TableCell>
+                                                {txn.depositStatus === 0 ? "Pending" :
+                                                    txn.depositStatus === 1 ? "Approved" : "Rejected"}
+                                            </TableCell>
                                             <TableCell>{new Date(txn.createdAt).toLocaleString()}</TableCell>
                                             <TableCell>
-                                                <IconButton
-                                                    color="success"
-                                                    onClick={() => handleAction(txn._id, "approve")}
-                                                >
-                                                    <CheckCircle />
-                                                </IconButton>
-                                                <IconButton
-                                                    color="error"
-                                                    onClick={() => handleAction(txn._id, "reject")}
-                                                >
-                                                    <Cancel />
-                                                </IconButton>
+                                                {txn.depositStatus === 0 && (
+                                                    <>
+                                                        <IconButton
+                                                            color="success"
+                                                            onClick={() => handleAction(txn._id, txn.userId._id, "approve")}
+                                                        >
+                                                            <CheckCircle />
+                                                        </IconButton>
+                                                        <IconButton
+                                                            color="error"
+                                                            onClick={() => handleAction(txn._id, txn.userId._id, "reject")}
+                                                        >
+                                                            <Cancel />
+                                                        </IconButton>
+                                                    </>
+                                                )}
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -150,7 +186,7 @@ const TransactionHistory = () => {
                     {/* Pagination */}
                     <TablePagination
                         component="div"
-                        count={filteredTransactions.length}
+                        count={transactions.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={(event, newPage) => setPage(newPage)}
