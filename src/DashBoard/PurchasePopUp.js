@@ -2,18 +2,32 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa"; // Import close icon
 import "./css/PurchasePopUp.css";
+import axios from "axios";
 
-const PurchasePopUp = ({ investment, onClose }) => {
+const PurchasePopUp = ({ investment, onClose, notify, togglePurchase }) => {
     const [quantity, setQuantity] = useState(1);
-
     const handleIncrease = () => setQuantity(quantity + 1);
     const handleDecrease = () => {
         if (quantity > 1) setQuantity(quantity - 1);
     };
 
-    const handleConfirmPurchase = () => {
-        alert(`Purchased ${quantity} of ${investment.heading} for ₹${(quantity * parseFloat(investment.investAmount)).toFixed(2)}`);
+
+    const handleConfirmPurchase = async() => {
+        try {
+        const purchasePayload ={
+            productId: investment._id,
+            quantity: quantity,
+            userId: JSON.parse(localStorage.getItem('data'))?._id
+        }
+        console.log('Is APi Exicuted');
+        await axios.post("http://localhost:5000/purchase-product", purchasePayload);
+            togglePurchase();
+            notify(`Purchased ${quantity} of ${investment.heading} for ₹${(quantity * parseFloat(investment.investAmount)).toFixed(2)}`, false);
         onClose();
+        } catch (error) {
+            notify(error?.response?.data?.error || "Error purchasing product. Please try again", true);
+            console.log(error);
+        }
     };
 
     return (

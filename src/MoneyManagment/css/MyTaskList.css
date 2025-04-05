@@ -1,73 +1,80 @@
 .task-list-container {
-    max-width: 600px;
-    margin: 50px auto;
     padding: 20px;
-    color:black;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    font-family: 'Arial', sans-serif;
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header & Back Button */
 .task-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .back-arrow {
     font-size: 24px;
+    margin-right: 10px;
     cursor: pointer;
-    color: #333;
-}
-
-.back-arrow:hover {
-    color: #007bff;
 }
 
 .task-title {
     font-size: 24px;
     font-weight: bold;
-    color: #222;
+    color: #333;
 }
 
-/* Table Styling */
 .task-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
 }
 
 .task-table th,
 .task-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
 }
 
-.task-table th {
-    color: black;
-    background: #f4f4f4;
-    font-weight: bold;
-}
-
-/* Claim Button */
 .claim-button {
-    background: #28a745;
+    padding: 8px 16px;
+    background-color: #28a745;
     color: white;
-    width: '100px';
     border: none;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .claim-button:hover {
-    background: #218838;
+    background-color: #218838;
+}
+
+.disabled-claim-button {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.info-icon {
+    font-size: 16px;
+    margin-left: 8px;
+    color: #666;
+    cursor: pointer;
+}
+
+.claimed-info {
+    display: inline-flex;
+    align-items: center;
+}
+
+.loading-text,
+.error-text {
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+    margin-top: 20px;
 }

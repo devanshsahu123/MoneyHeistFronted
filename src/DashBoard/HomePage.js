@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
     FaWallet,
@@ -17,6 +17,7 @@ import PurchasePopUp from "./PurchasePopUp";
 import DepositeAmount from "../MoneyManagment/DepositeAmount";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactNotificationAlert from "react-notification-alert";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -24,6 +25,34 @@ const HomePage = () => {
     const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
     const [hotInvestments, setHotInvestments] = useState([]);
     const [userInfo, setUserInfo] = useState({});
+    const [isPurchsed, setIsPurchsed] = useState(false);
+
+   const togglePurchase = () => {
+        setIsPurchsed(!isPurchsed); 
+    }
+
+        const notifi = useRef();
+    
+        const notify = (msg, err) => {
+            let color = err == false ? 'success' : 'danger';
+            let options = {
+                type: color,
+                place: 'tr',
+                message: (
+                    <div >
+                        <div >
+                            <b >{err == false ? 'Success' : 'Error'}</b> - {msg}.
+                        </div>
+                    </div>
+                ),
+                icon: 'tim-icons icon-bell-55',
+                autoDismiss: 6,
+                closeButton: false,
+            };
+            if (notifi.current) {
+                notifi.current.notificationAlert(options);
+            }
+        };
     
     const fetchProducts = async () => {
         try {
@@ -50,49 +79,12 @@ const HomePage = () => {
     useEffect(() => {
         getUserInfo();
         fetchProducts();
-    }, []);
-
-    // const hotInvestments = [
-    //     {
-    //         vip: "VIP2",
-    //         image: "https://dummyimage.com/600x400/000/fff",
-    //         title: "Medtronic-2",
-    //         dayIncome: "880",
-    //         days: "3 Days",
-    //         totalIncome: "2640",
-    //         investAmount: "1600.00",
-    //     },
-    //     {
-    //         vip: "VIP3",
-    //         image: "https://dummyimage.com/600x400/000/fff",
-    //         title: "Tesla-3",
-    //         dayIncome: "1500",
-    //         days: "5 Days",
-    //         totalIncome: "7500",
-    //         investAmount: "5000.00",
-    //     },
-    //     {
-    //         vip: "VIP4",
-    //         image: "https://dummyimage.com/600x400/000/fff",
-    //         title: "Amazon-4",
-    //         dayIncome: "2500",
-    //         days: "7 Days",
-    //         totalIncome: "17500",
-    //         investAmount: "10000.00",
-    //     },
-    //     {
-    //         vip: "VIP5",
-    //         image: "https://dummyimage.com/600x400/000/fff",
-    //         title: "Google-5",
-    //         dayIncome: "4000",
-    //         days: "10 Days",
-    //         totalIncome: "40000",
-    //         investAmount: "20000.00",
-    //     },
-    // ];
+    }, [isPurchsed]);
 
     return (
         <div className="homepage">
+            <ReactNotificationAlert ref={notifi} />
+
             {/* Logo */}
             <div className="logo-container">
                 <img src="https://via.placeholder.com/120x50?text=LOGO" alt="Company Logo" className="logo" />
@@ -197,7 +189,8 @@ const HomePage = () => {
                 </div>
 
             </div>
-            {selectedInvestment && <PurchasePopUp investment={selectedInvestment} onClose={() => setSelectedInvestment(null)} />}
+            notify
+            {selectedInvestment && <PurchasePopUp investment={selectedInvestment} notify={notify} togglePurchase={togglePurchase}  onClose={() => setSelectedInvestment(null)} />}
             <DepositeAmount isOpen={isDepositeModalOpen} onClose={() => setIsDepositeModalOpen(false)} />
         </div>
     );
