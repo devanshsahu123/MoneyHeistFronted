@@ -7,6 +7,7 @@ import "./css/DepositeAmount.css";
 import axios from "axios"; // Import Axios
 
 const DepositeAmount = ({ isOpen, onClose, notify }) => {
+    const apiUrl = process.env.REACT_APP_API_URL; // Use your API URL here
     const [amount, setAmount] = useState("");
     const [transactionId, setTransactionId] = useState("");
     const [upiId, setUpiId] = useState("");
@@ -40,7 +41,7 @@ const DepositeAmount = ({ isOpen, onClose, notify }) => {
 
         try {
             console.log("exicuted 1");
-            const { data } = await axios.put("http://localhost:5000/deposit", {
+            const { data } = await axios.put(`${apiUrl}/deposit`, {
                 userId,
                 transactionId,
                 amount: parseFloat(amount),

@@ -5,6 +5,7 @@ import axios from "axios";
 import "./css/LinkAccount.css";
 
 const LinkAccount = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const userId = JSON.parse(localStorage.getItem("data"))?._id;
     const [upiId, setUpiId] = useState("");
@@ -18,7 +19,7 @@ const LinkAccount = () => {
             return;
         }
 
-        axios.get(`http://localhost:5000/upi?userId=${userId}`)
+        axios.get(`${apiUrl}/upi?userId=${userId}`)
             .then((response) => {
                 if (response.data?.upiId) {
                     setUpiId(response.data.upiId);
@@ -35,7 +36,7 @@ const LinkAccount = () => {
             return;
         }
 
-        axios.put("http://localhost:5000/upi", { userId, upiId })
+        axios.put(`${apiUrl}/upi`, { userId, upiId })
             .then((response) => {
                 setIsLinked(true);
                 alert("UPI ID added successfully.");

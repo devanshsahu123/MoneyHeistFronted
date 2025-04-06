@@ -5,6 +5,7 @@ import "./css/PurchasePopUp.css";
 import axios from "axios";
 
 const PurchasePopUp = ({ investment, onClose, notify, togglePurchase }) => {
+    const apiUrl = process.env.REACT_APP_API_URL; // Use your API URL here
     const [quantity, setQuantity] = useState(1);
     const handleIncrease = () => setQuantity(quantity + 1);
     const handleDecrease = () => {
@@ -20,7 +21,7 @@ const PurchasePopUp = ({ investment, onClose, notify, togglePurchase }) => {
             userId: JSON.parse(localStorage.getItem('data'))?._id
         }
         console.log('Is APi Exicuted');
-        await axios.post("http://localhost:5000/purchase-product", purchasePayload);
+            await axios.post(`${apiUrl}/purchase-product`, purchasePayload);
             togglePurchase();
             notify(`Purchased ${quantity} of ${investment.heading} for ₹${(quantity * parseFloat(investment.investAmount)).toFixed(2)}`, false);
         onClose();

@@ -7,6 +7,7 @@ import {
 import { CheckCircle, Cancel } from "@mui/icons-material";
 
 const TransactionHistory = () => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -26,7 +27,7 @@ const TransactionHistory = () => {
         setLoading(true);
         try {
             const queryParams = new URLSearchParams(filter).toString();
-            const response = await fetch(`http://localhost:5000/admin/transaction?${queryParams}`);
+            const response = await fetch(`${apiUrl}/admin/transaction?${queryParams}`);
             const data = await response.json();
 
             if (data.success) {
@@ -49,7 +50,7 @@ const TransactionHistory = () => {
     // Handle Approve / Reject actions
     const handleAction = async (id, userId, action, transactionType) => {
         try {
-            const response = await fetch("http://localhost:5000/admin/transaction", {
+            const response = await fetch(`${apiUrl}/admin/transaction`, {
                 method: action === "reject" ? "DELETE" : "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ _id: id, userId, transactionType })

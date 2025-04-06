@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SignUpPage = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const location = useLocation();
     const navigate = useNavigate();
     const [error, setError] = useState("");
@@ -47,7 +48,7 @@ const SignUpPage = () => {
         };
 
         try {
-            const response = await axios.post("http://localhost:5000/sign-up", requestData);
+            const response = await axios.post(`${apiUrl}/sign-up`, requestData);
             console.log("Response:", response.data);
 
             if (response.status === 201) {

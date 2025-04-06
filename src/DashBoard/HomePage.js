@@ -19,7 +19,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReactNotificationAlert from "react-notification-alert";
 import MadtonicIcon from "./MedTonicShop.jpeg"
+
 const HomePage = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [selectedInvestment, setSelectedInvestment] = useState(null);
     const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
@@ -56,7 +58,7 @@ const HomePage = () => {
     
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/products");
+            const response = await axios.get(`${apiUrl}/products`);
             setHotInvestments(response.data); // Store API response in state
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -65,7 +67,7 @@ const HomePage = () => {
 
     const getUserInfo = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/userInfo",{
+            const response = await axios.get(`${apiUrl}/userInfo`,{
                 params: {
                     userId: JSON.parse(localStorage.getItem('data'))?._id
                 }
@@ -97,7 +99,10 @@ const HomePage = () => {
                     <h2 className="user-name">{userInfo.name}</h2>
                     <p className="user-id" style={{color:"#FFF"}}>ID: {userInfo._id}</p>
                 </div>
-                <FaSignOutAlt className="redeem-icon" />
+                <FaSignOutAlt className="redeem-icon" onClick={()=>{
+                    localStorage.removeItem('data');
+                    navigate('/login')
+                }}/>
             </div>
 
             {/* Amounts Section */}

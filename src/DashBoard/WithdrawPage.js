@@ -4,8 +4,10 @@ import { IoArrowBack } from "react-icons/io5";
 import axios from "axios";
 import "./css/WithdrawPage.css";
 import ReactNotificationAlert from "react-notification-alert";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const WithdrawPage = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [availableBalance, setAvailableBalance] = useState(0);
     const minWithdrawal = 100;
@@ -39,7 +41,7 @@ const WithdrawPage = () => {
     useEffect(() => {
         const fetchUpiId = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/upi?userId=${userId}`);
+                const response = await axios.get(`${apiUrl}/upi?userId=${userId}`);
                 setUpiId(response.data);
                 setAvailableBalance(response.data.withdrawAmount); // Assuming API sends withdrawAmount
             } catch (error) {
@@ -69,7 +71,7 @@ const WithdrawPage = () => {
         if (!amount || amount < minWithdrawal || amount > availableBalance) return;
 
         try {
-            const response = await axios.put("http://localhost:5000/withdraw-request", {
+            const response = await axios.put(`${apiUrl}/withdraw-request`, {
                 userId,
                 amount,
             });

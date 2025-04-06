@@ -5,6 +5,7 @@ import axios from "axios";
 import "./css/MyTeam.css";
 
 const MyTeam = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [referrals, setReferrals] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ const MyTeam = () => {
                 const userId = JSON.parse(localStorage.getItem("data"))?._id;
                 if (!userId) return;
 
-                const res = await axios.get("http://localhost:5000/my-team", {
+                const res = await axios.get(`${apiUrl}/my-team`, {
                     params: { userId },
                 });
 

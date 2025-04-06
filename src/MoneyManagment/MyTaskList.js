@@ -6,6 +6,7 @@ import "./css/MyTaskList.css";
 import ReactNotificationAlert from "react-notification-alert";
 
 const MyTaskList = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -38,7 +39,7 @@ const MyTaskList = () => {
     const fetchTasks = async () => {
         try {
             const userId = JSON.parse(localStorage.getItem("data"))?._id;
-            const res = await axios.get("http://localhost:5000/task-list", {
+            const res = await axios.get(`${apiUrl}/task-list`, {
                 params: { userId },
             });
 
@@ -63,7 +64,7 @@ const MyTaskList = () => {
         try {
             const userId = JSON.parse(localStorage.getItem("data"))?._id;
 
-            const res = await axios.put("http://localhost:5000/claim-task", {
+            const res = await axios.put(`${apiUrl}/claim-task`, {
                 taskId: task._id,
                 userId,
                 productId: task.productId._id,
@@ -92,7 +93,8 @@ const MyTaskList = () => {
             {loading ? (
                 <p className="loading-text">Loading tasks...</p>
             ) : (
-                <table className="task-table">
+                
+               tasks.length >0 ? <table className="task-table">
                     <thead>
                         <tr>
                             <th>Task Name</th>
@@ -100,7 +102,7 @@ const MyTaskList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {tasks?.map((task) => (
+                            {tasks?.map((task) => (
                             <tr key={task._id}>
                                 <td>{task?.productId?.heading}</td>
                                 <td>
@@ -121,7 +123,11 @@ const MyTaskList = () => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table>:<div style={{ textAlign: "center", marginTop: "20px" }}>
+                    <h3 className="no-tasks-message">No tasks available.</h3>
+                    <p className="no-tasks-info">Complete your first purchase to unlock tasks!</p>
+                </div>
+
             )}
         </div>
     );
