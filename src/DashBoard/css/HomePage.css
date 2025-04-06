@@ -14,13 +14,28 @@ body{
 
 /* Logo */
 .logo-container {
-    text-align: center;
-    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
 }
 
 .logo {
-    width: 120px;
-    height: auto;
+    width: 290px;
+    /* cropped size */
+    height: 44px;
+    /* fixed height to crop */
+    object-fit: cover;
+    /* fills & crops the image */
+    border-radius: 3px;
+    /* makes it circular, use 10px for soft corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* optional shadow */
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 /* User ID Section */

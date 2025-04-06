@@ -4,7 +4,6 @@ import SignUpPage from "./auth/SignUpPage";
 import LogInPage from "./auth/LogInPage";
 import RootPage from "./DashBoard/RootPage";
 import HomePage from "./DashBoard/HomePage";
-import DepositeAmount from "./MoneyManagment/DepositeAmount";
 import WithdrawPage from "./DashBoard/WithdrawPage.js";
 import LinkAccount from "./DashBoard/LinkAccount.js";
 import VipClub from "./DashBoard/VipClub.js";
@@ -22,7 +21,6 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LogInPage />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/deposite" element={<DepositeAmount />} />
         <Route path="/withdraw" element={<WithdrawPage />} />
         <Route path="/link-account" element={<LinkAccount />} />
         <Route path="/vip-club" element={<VipClub />} />

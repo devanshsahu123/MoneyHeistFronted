@@ -47,12 +47,12 @@ const TransactionHistory = () => {
     }, [fetchTransactions]);
 
     // Handle Approve / Reject actions
-    const handleAction = async (id, userId, action) => {
+    const handleAction = async (id, userId, action, transactionType) => {
         try {
             const response = await fetch("http://localhost:5000/admin/transaction", {
                 method: action === "reject" ? "DELETE" : "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ _id: id, userId })
+                body: JSON.stringify({ _id: id, userId, transactionType })
             });
 
             const data = await response.json();
@@ -164,13 +164,13 @@ const TransactionHistory = () => {
                                                     <>
                                                         <IconButton
                                                             color="success"
-                                                            onClick={() => handleAction(txn._id, txn.userId._id, "approve")}
+                                                            onClick={() => handleAction(txn._id, txn.userId._id, "approve", txn.transactionType)}
                                                         >
                                                             <CheckCircle />
                                                         </IconButton>
                                                         <IconButton
                                                             color="error"
-                                                            onClick={() => handleAction(txn._id, txn.userId._id, "reject")}
+                                                            onClick={() => handleAction(txn._id, txn.userId._id, "reject", txn.transactionType)}
                                                         >
                                                             <Cancel />
                                                         </IconButton>

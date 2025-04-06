@@ -6,33 +6,12 @@ import "react-notification-alert/dist/animate.css";
 import "./css/DepositeAmount.css";
 import axios from "axios"; // Import Axios
 
-const DepositeAmount = ({ isOpen, onClose }) => {
+const DepositeAmount = ({ isOpen, onClose, notify }) => {
     const [amount, setAmount] = useState("");
     const [transactionId, setTransactionId] = useState("");
     const [upiId, setUpiId] = useState("");
     const [step, setStep] = useState(1);
-    const notifi = useRef();
 
-    const notify = (msg, err) => {
-        let color = err == false ? 'success' : 'danger';
-        let options = {
-            type: color,
-            place: 'tr',
-            message: (
-                <div >
-                    <div >
-                        <b >{err == false ? 'Success' : 'Error'}</b> - {msg}.
-                    </div>
-                </div>
-            ),
-            icon: 'tim-icons icon-bell-55',
-            autoDismiss: 6,
-            closeButton: false,
-        };
-        if (notifi.current) {
-            notifi.current.notificationAlert(options);
-        }
-    };
 
     const handleAmountSubmit = () => {
         const depositAmount = parseFloat(amount);
@@ -42,7 +21,7 @@ const DepositeAmount = ({ isOpen, onClose }) => {
             return;
         }
 
-        setUpiId("upi123@bank"); // Example UPI ID, replace with dynamic value if needed
+        setUpiId("missVanshi@apl");
         setStep(2);
     };
 
@@ -60,19 +39,23 @@ const DepositeAmount = ({ isOpen, onClose }) => {
         const userId =JSON.parse(localStorage.getItem('data'))?._id;
 
         try {
+            console.log("exicuted 1");
             const { data } = await axios.put("http://localhost:5000/deposit", {
                 userId,
                 transactionId,
                 amount: parseFloat(amount),
             });
+            console.log("exicuted 2");
 
-            notify(`Deposit Successful! Transaction ID: ${transactionId}`, false);
+            notify(`Deposit amount will be creadited in 2h!`, false);
+            console.log("exicuted 3");
 
             // Reset fields after deposit
             setAmount("");
             setTransactionId("");
             setUpiId("");
             setStep(1);
+            console.log("exicuted 4");
 
             onClose();
         } catch (error) {
@@ -90,8 +73,6 @@ const DepositeAmount = ({ isOpen, onClose }) => {
 
     return (
         <div className="modal-overlay">
-            <NotificationAlert ref={notifi} />
-
             <motion.div
                 className="modal-content"
                 initial={{ opacity: 0, y: 50 }}
@@ -160,7 +141,15 @@ const DepositeAmount = ({ isOpen, onClose }) => {
                             <p className="upi-instruction">
                                 Send ₹{amount} to the following UPI ID:
                             </p>
-                            <div className="upi-id-box">{upiId}</div>
+                            <div
+                                className="upi-id-box"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(upiId);
+                                    notify("UPI ID Copied! success", false); // Optional alert
+                                }}
+                            >
+                                {upiId}
+                            </div>
                             <p className="upi-instruction">
                                 After payment, enter the UPI Transaction ID below:
                             </p>

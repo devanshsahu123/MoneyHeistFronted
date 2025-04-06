@@ -18,7 +18,7 @@ import DepositeAmount from "../MoneyManagment/DepositeAmount";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReactNotificationAlert from "react-notification-alert";
-
+import MadtonicIcon from "./MedTonicShop.jpeg"
 const HomePage = () => {
     const navigate = useNavigate();
     const [selectedInvestment, setSelectedInvestment] = useState(null);
@@ -46,7 +46,7 @@ const HomePage = () => {
                     </div>
                 ),
                 icon: 'tim-icons icon-bell-55',
-                autoDismiss: 6,
+                autoDismiss: 10,
                 closeButton: false,
             };
             if (notifi.current) {
@@ -87,7 +87,7 @@ const HomePage = () => {
 
             {/* Logo */}
             <div className="logo-container">
-                <img src="https://via.placeholder.com/120x50?text=LOGO" alt="Company Logo" className="logo" />
+                <img src={MadtonicIcon} alt="Company Logo" className="logo" />
             </div>
 
             {/* User ID Section with Redeem Icon */}
@@ -191,7 +191,7 @@ const HomePage = () => {
             </div>
             notify
             {selectedInvestment && <PurchasePopUp investment={selectedInvestment} notify={notify} togglePurchase={togglePurchase}  onClose={() => setSelectedInvestment(null)} />}
-            <DepositeAmount isOpen={isDepositeModalOpen} onClose={() => setIsDepositeModalOpen(false)} />
+            <DepositeAmount notify={notify} isOpen={isDepositeModalOpen} onClose={() => setIsDepositeModalOpen(false)} />
         </div>
     );
 };

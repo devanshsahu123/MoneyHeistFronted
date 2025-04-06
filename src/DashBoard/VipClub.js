@@ -18,11 +18,11 @@ const VipClub = () => {
             {/* Back Button & Title */}
             <div className="vip-header">
                 <IoArrowBack className="back-arrow" onClick={() => navigate(-1)} />
-                <h2 className="vip-title">🔥 VIP Club</h2>
+                <h2 className="vip-title">🔥 VIP Club Comming Soon..</h2>
             </div>
-            <p className="vip-subtitle">Unlock exclusive benefits with our VIP plans</p>
+            {/* <p className="vip-subtitle">Unlock exclusive benefits with our VIP plans</p> */}
 
-            <div className="vip-list">
+            {/* <div className="vip-list">
                 {vipPlans.map((plan) => (
                     <div className="vip-card" key={plan.id}>
                         <span className="vip-tag">VIP-{plan.vip}</span>
@@ -31,7 +31,7 @@ const VipClub = () => {
                         <button className="purchase-button">Purchase</button>
                     </div>
                 ))}
-            </div>
+            </div> */}
         </div>
     );
 };

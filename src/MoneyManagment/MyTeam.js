@@ -19,11 +19,12 @@ const MyTeam = () => {
                     params: { userId },
                 });
 
+                console.log(res.data.data, "res.data.data");
                 if (res.data.success) {
                     const formatted = res.data.data.map((member) => ({
                         id: member._id,
                         name: member.name,
-                        earnings: `₹${member.totalDeposit || 0}`,
+                        earnings: `₹${member.totalDeposit*0.1 || 0}`,
                         status: member.totalDeposit > 0 ? "Successful" : "Progress",
                     }));
                     setReferrals(formatted);
