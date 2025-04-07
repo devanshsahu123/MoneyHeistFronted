@@ -6,6 +6,7 @@ import "./css/InviteFriend.css";
 
 const InviteFriend = () => {
     const apiUrl = process.env.REACT_APP_API_URL; // Get API URL from environment variables
+    const appUrl = process.env.REACT_APP_URL; // Get API URL from environment variables
     const navigate = useNavigate();
     const [referralCode, setReferralCode] = useState("");
     const userId = JSON.parse(localStorage.getItem("data"))?._id; // Get userId from localStorage
@@ -28,7 +29,7 @@ const InviteFriend = () => {
         }
     };
 
-    const referralLink = `${apiUrl}/signup?code=${referralCode}`;
+    const referralLink = `${appUrl}/signup?code=${referralCode}`;
 
     // Function to copy the referral link
     const handleCopy = () => {
