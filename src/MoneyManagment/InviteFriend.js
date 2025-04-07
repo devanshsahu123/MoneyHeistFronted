@@ -28,7 +28,7 @@ const InviteFriend = () => {
         }
     };
 
-    const referralLink = `http://localhost:3000/signup?code=${referralCode}`;
+    const referralLink = `${apiUrl}/signup?code=${referralCode}`;
 
     // Function to copy the referral link
     const handleCopy = () => {
